@@ -1,0 +1,123 @@
+% This is based on the LLNCS.DEM the demonstration file of
+% the LaTeX macro package from Springer-Verlag
+% for Lecture Notes in Computer Science,
+% version 2.4 for LaTeX2e as of 16. April 2010
+%
+% See http://www.springer.com/computer/lncs/lncs+authors?SGWID=0-40209-0-0-0
+% for the full guidelines.
+%
+\documentclass{llncs}
+
+\begin{document}
+
+\title{Author Identification using SVM}
+%
+\titlerunning{Hamiltonian Mechanics}  % abbreviated title (for running head)
+%                                     also used for the TOC unless
+%                                     \toctitle is used
+%
+\author{Ivar Ekeland\inst{1} \and Roger Temam\inst{2}
+Jeffrey Dean \and David Grove \and Craig Chambers \and Kim~B.~Bruce \and
+Elsa Bertino}
+%
+\authorrunning{Ivar Ekeland et al.} % abbreviated author list (for running head)
+%
+%%%% list of authors for the TOC (use if author list has to be modified)
+\tocauthor{Ivar Ekeland, Roger Temam, Jeffrey Dean, David Grove,
+Craig Chambers, Kim B. Bruce, and Elisa Bertino}
+%
+\institute{Princeton University, Princeton NJ 08544, USA,\\
+\email{I.Ekeland@princeton.edu},\\ WWW home page:
+\texttt{http://users/\homedir iekeland/web/welcome.html}
+\and
+Universit\'{e} de Paris-Sud,
+Laboratoire d'Analyse Num\'{e}rique, B\^{a}timent 425,\\
+F-91405 Orsay Cedex, France}
+
+\maketitle              % typeset the title of the contribution
+
+\begin{abstract}
+\noindent Author identification is the process, where a text of an unknown author is analysed. It's compared to texts, to which the author is known and a similarity score is calculated. Authorship attribution can be used in areas like law, journalism and forensic linguistics. This paper focuses on solving the Author Identification \cite{stamatatos:2015} task of the PAN 2015 Challenge  http://pan.webis.de 
+The described solution uses a machine learning algorithm called `Support vector machine' (SVM) to train and then to evaluate the document corpus.
+
+\keywords{Author identification, forensic linguistics, text mining, machine learning}
+\end{abstract}
+%
+
+\section{Introduction}
+
+The PAN 2015 author identification task provides a small set of one to ten documents, that are authored by a single person, and a single document with a unknown author. The task is to create a software, that determines whether the questioned document was written by the same person who wrote the known document set.
+A training corpus is provided, that contains documents in the specified format. The documents are in four different languages - English, Greek, Spanish and Dutch.  They could be cross-genre and cross-topic. A file with the correct results of the training corpus is provided.
+
+The software should create a file with scores for the corresponding problem, that has to be a real number in [0, 1] inclusive, corresponding to the probability of a positive answer.
+
+
+
+%------------------------------------------------
+
+\section{Methods}
+
+\subsection{Overview}
+
+The provided solution uses the software GATE \cite{Cunningham2011a} to annotate the corpus of documents. Groovy scripts are used to extract the annotations in objects. GATE is initialized programaticaly inside a Java project. The extracted objects are analysed using the LIBSVM library \cite{CC01a} 
+
+\subsection {GATE}
+The solution uses GATE to annotate and process the annotations of the corpus of documents. A pipeline is used to process the documents. It contains these resources:
+
+\begin{enumerate}
+\item Reset PR 
+\item ANNIE Tokenizer \cite{Cunningham2002}
+\item ANNIE Sentence Splitter
+\item Paragraph Transfer
+\item Groovy script for adding features
+\item Groovy script for adding n-gramms
+\end{enumerate}
+
+\subsection {SVM}
+
+SVM is used to create a model using the training data. After that the corpus with the `real' data is evaluated.
+
+\subsection {Features}
+To measure the similarity of the text, some features are detected, vectorized and compared using the SVM algorithm.
+The features, that we used are:
+\begin{enumerate}
+\item Average sentence length to character count ratio
+\item Average sentence length to word count ratio
+\item Average word Length
+\item Average paragraph length to word count ratio \cite{sanchez}
+\item Average paragraph length to sentence count ratio
+\item Punctuation to word count ratio
+\item Sentence count to word count ratio
+\item Word based n-gramms of sizes 1,2,3 
+\end{enumerate}
+
+
+%------------------------------------------------
+
+\section{Results}
+
+
+
+\begin{equation}
+\label{eq:emc}
+e = mc^2
+\end{equation}
+
+
+%------------------------------------------------
+
+\section{Discussion}
+
+\subsection{Subsection One}
+
+
+\subsection{Subsection Two}
+
+
+%
+% ---- Bibliography ----
+%
+\bibliographystyle{plain}
+\bibliography{bibliography}
+
+\end{document}
